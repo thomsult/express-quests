@@ -58,10 +58,27 @@ const postUser = (req, res) =>{
     })
     .catch((err) => {
       console.error(err);
-      res.status(500).send("Error saving user");
+      res.status(500).send(`Error saving user :  ${err.sqlMessage}`);
     });
 };
 
+const putUserByID = (req,res)=>{
+  const id = parseInt(req.params.id);
+  const { firstname, lastname, username } = req.body;
+  database
+  .query("UPDATE user_register SET firstname = ?, lastname = ?, username = ? WHERE id = ?;", [firstname, lastname, username, id])
+  .then(([result]) => {
+    if (result.affectedRows === 0) {
+      res.status(404).send("Not Found");
+    } else {
+      res.sendStatus(204);
+    }
+  })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send(`Error editing user :  ${err.sqlMessage}`);
+    });
+}
 
 
 
@@ -72,4 +89,5 @@ module.exports = {
   getUsers,
   getUsersById,
   postUser,
+  putUserByID
 };

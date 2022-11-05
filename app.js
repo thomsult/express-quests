@@ -22,6 +22,8 @@ app.get("/api/users/:id", usersHandlers.getUsersById);
 
 app.post("/api/users/", usersHandlers.postUser);
 
+app.put("/api/users/:id",usersHandlers.putUserByID);
+
 
 app.listen(port, (err) => {
   if (err) {
