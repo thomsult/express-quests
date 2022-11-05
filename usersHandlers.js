@@ -6,7 +6,7 @@ const mysql = require("mysql2/promise");
 
 const database = mysql.createPool({
   host: process.env.DB_HOST, // address of the server
-  port: process.env.DB_PORT, // port of the DB server (mysql), not to be confused with the APP_PORT !
+  port: parseInt(process.env.DB_PORT||"3309"), // port of the DB server (mysql), not to be confused with the APP_PORT !
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
@@ -43,7 +43,33 @@ const getUsersById = (req, res) => {
     });
 };
 
+
+
+
+const postUser = (req, res) =>{
+  const { firstname, lastname, username } = req.body;
+  database
+    .query(
+      "INSERT INTO user_register (firstname, lastname, username) VALUES (?, ?, ?)",
+      [firstname, lastname, username]
+    )
+    .then(([result]) => {
+      res.location(`/api/users/${result.insertId}`).sendStatus(201);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error saving user");
+    });
+};
+
+
+
+
+
+
+
 module.exports = {
   getUsers,
   getUsersById,
+  postUser,
 };
