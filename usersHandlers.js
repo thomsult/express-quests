@@ -76,11 +76,11 @@ const getUsersById = (req, res) => {
 
 
 const postUser = (req, res) =>{
-  const { firstname, lastname, username } = req.body;
+  const { firstname, lastname, username,language,city } = req.body;
   database
     .query(
-      "INSERT INTO user_register (firstname, lastname, username) VALUES (?, ?, ?)",
-      [firstname, lastname, username]
+      "INSERT INTO user_register (firstname, lastname, username,language,city) VALUES (?, ?, ?, ?, ?)",
+      [firstname, lastname, username,language,city]
     )
     .then(([result]) => {
       res.location(`/api/users/${result.insertId}`).sendStatus(201);
@@ -93,9 +93,9 @@ const postUser = (req, res) =>{
 
 const putUserByID = (req,res)=>{
   const id = parseInt(req.params.id);
-  const { firstname, lastname, username } = req.body;
+  const { firstname, lastname, username,language,city } = req.body;
   database
-  .query("UPDATE user_register SET firstname = ?, lastname = ?, username = ? WHERE id = ?;", [firstname, lastname, username, id])
+  .query("UPDATE user_register SET firstname = ?, lastname = ?, username = ?, language = ?, city = ? WHERE id = ?;", [firstname, lastname, username,language,city, id])
   .then(([result]) => {
     if (result.affectedRows === 0) {
       res.status(404).send("Not Found");

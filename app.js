@@ -16,13 +16,15 @@ app.get("/", welcome);
 
 const usersHandlers = require("./usersHandlers");
 
+const { validateUser } = require("./validators.js");
+
 app.get("/api/users", usersHandlers.getUsers);
 
 app.get("/api/users/:id", usersHandlers.getUsersById);
 
-app.post("/api/users/", usersHandlers.postUser);
+app.post("/api/users/", validateUser, usersHandlers.postUser);
 
-app.put("/api/users/:id",usersHandlers.putUserByID);
+app.put("/api/users/:id",validateUser, usersHandlers.putUserByID);
 
 app.delete("/api/users/:id",usersHandlers.deleteUser);
 
