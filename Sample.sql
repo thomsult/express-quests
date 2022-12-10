@@ -1,3 +1,4 @@
+-- Active: 1667950434747@@192.168.1.12@3306
 CREATE DATABASE `users`;
 USE `users`;
 CREATE TABLE `user_register`(

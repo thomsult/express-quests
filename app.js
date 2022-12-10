@@ -17,14 +17,15 @@ app.get("/", welcome);
 const usersHandlers = require("./usersHandlers");
 
 const { validateUser } = require("./validators.js");
+const { hashPassword } = require("./auth.js");
 
 app.get("/api/users", usersHandlers.getUsers);
 
 app.get("/api/users/:id", usersHandlers.getUsersById);
 
-app.post("/api/users/", validateUser, usersHandlers.postUser);
+app.post("/api/users/", hashPassword ,validateUser, usersHandlers.postUser);
 
-app.put("/api/users/:id",validateUser, usersHandlers.putUserByID);
+app.put("/api/users/:id",hashPassword ,validateUser, usersHandlers.putUserByID);
 
 app.delete("/api/users/:id",usersHandlers.deleteUser);
 

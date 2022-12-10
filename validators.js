@@ -1,9 +1,9 @@
 const validateUser = (req, res, next) => {
 
-    const { firstname, lastname, username, language	, city } = req.body;
+    const { firstname, lastname, username, hashedPassword, language	, city } = req.body;
     const errors = [];
 
-    for (const [key, value] of Object.entries({firstname, lastname, username, language, city})) {
+    for (const [key, value] of Object.entries({firstname, lastname, username,hashedPassword, language, city})) {
         if (value == null){
             errors.push({ field: key, message: "This field is required" })
         }else if (value.length >= 255){
@@ -24,11 +24,8 @@ const validateUser = (req, res, next) => {
     validateUser,
   };
   
-  
-  // in app.js
-  
-  
 
+  
   
   
   
