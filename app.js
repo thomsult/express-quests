@@ -17,13 +17,22 @@ app.get("/", welcome);
 const usersHandlers = require("./usersHandlers");
 
 const { validateUser } = require("./validators.js");
-const { hashPassword } = require("./auth.js");
+const { hashPassword, verifyPassword, verifyToken } = require("./auth.js");
 
 app.get("/api/users", usersHandlers.getUsers);
 
 app.get("/api/users/:id", usersHandlers.getUsersById);
 
+
 app.post("/api/users/", hashPassword ,validateUser, usersHandlers.postUser);
+app.post(
+  "/api/login",
+  usersHandlers.getUserByEmailWithPasswordAndPassToNext,
+  verifyPassword
+
+); 
+
+app.use(verifyToken);
 
 app.put("/api/users/:id",hashPassword ,validateUser, usersHandlers.putUserByID);
 
